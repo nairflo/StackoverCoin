@@ -13,12 +13,12 @@ contract StackoverCoin is StandardToken {
 
 
     constructor() public{
-        decimals = 10;
-        totalSupply = 21000000*10**uint256(decimals);
+        balances[msg.sender] = 0;
+        totalSupply = 21000000;
         circulatingSupply = 0;
         name = "StackoverCoin";
+        decimals = 10;
         symbol = "SOC";
-        balances[msg.sender] = 10*10**uint256(decimals);
     }
 }
 
