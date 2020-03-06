@@ -1,0 +1,82 @@
+*{
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+}
+html, body{
+    display: flex;
+    width: 100%;
+    height: 100%;   
+    margin: 0;
+    background-color: whitesmoke;
+}
+body{
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.inscription{
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    width: 550px;
+    height: 550px;
+    background-color:white;
+    border-radius: 10px;
+}
+.create{
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-weight: 900;
+    font-size: 25px;
+}
+
+#nickname, #password, #email{
+    width: 400px;
+    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: none;
+    border: 1px solid gray;
+    padding-left: 10px;
+    outline: none;
+}
+button{
+    box-shadow: none;
+    border: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 400px;
+    height: 40px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: none;
+    background: rgb(115,153,255);
+    background: linear-gradient(90deg, rgba(115,153,255,1) 0%, rgba(2,218,253,1) 100%);
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    outline: none;
+}
+.login_page{
+    margin-top: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 45px;
+
+}
+ p,a{
+     margin: 0;
+ }
+
+ a{
+     color: black;
+     text-decoration-color: black;
+     text-decoration: underline;
+ }
