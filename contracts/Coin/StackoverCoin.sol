@@ -20,6 +20,13 @@ contract StackoverCoin is StandardToken {
         decimals = 10;
         symbol = "SOC";
     }
+
+    function addCirculatingSupply() public {
+        circulatingSupply++;
+    }
+    function minedCoin(address author, address[] memory addr) public {
+        balances[author] += 10 ** decimals;
+	}
 }
 
 

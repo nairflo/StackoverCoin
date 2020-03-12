@@ -18,7 +18,6 @@ contract StandardToken {
 
 	function sendCoin(address receiver, uint amount) public returns(bool sufficient) {
 		if (balances[msg.sender] < amount) return false;
-		//100 pour prendre 1% de la transaction
 		balances[msg.sender] -= amount;
 		balances[receiver] += amount;
 		return true;
@@ -27,4 +26,5 @@ contract StandardToken {
 	function getBalance(address addr) public view returns(uint) {
 		return balances[addr];
 	}
+	
 }

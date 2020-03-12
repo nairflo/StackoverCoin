@@ -1,4 +1,4 @@
-pragma solidity ^0.6.1;
+pragma solidity >=0.4.25 <0.7.0;
 
 library strings {
    function equals (string memory a, string memory b) public view 

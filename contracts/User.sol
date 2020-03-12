@@ -23,13 +23,13 @@ contract UserCrypto {
     event Registered(
     address indexed userAdd,
     string userName,
-    string indexed userEmail,
+    string  userEmail,
     uint userRegId);
 
-    event Login(
+    event Loginemit(
     address indexed userAdd,
     string userName,
-    string indexed userEmail,
+    string  userEmail,
     uint userRegId);
 
     modifier alreadyRegistered() {
@@ -50,16 +50,17 @@ contract UserCrypto {
         return true;
     }
 
-    function login(string memory _password) public view returns (address){
+    function login(string memory _password) public returns (address){
         require(data[msg.sender].registered,"your address is not registered");
         require(keccak256(abi.encodePacked(_password)) == data[msg.sender].password,"Incorrect password");
+        emit Loginemit(msg.sender,data[msg.sender].pseudo,data[msg.sender].email,data[msg.sender].regId);
         return (msg.sender);
     }
     
     function loginOnChain(string memory _password) public returns (address){
         require(data[msg.sender].registered,"your address is not registered");
         require(keccak256(abi.encodePacked(_password)) == data[msg.sender].password,"Incorrect password");
-        emit Login(msg.sender,data[msg.sender].pseudo,data[msg.sender].email,data[msg.sender].regId);
+        emit Loginemit(msg.sender,data[msg.sender].pseudo,data[msg.sender].email,data[msg.sender].regId);
         return (msg.sender);
     }
     
