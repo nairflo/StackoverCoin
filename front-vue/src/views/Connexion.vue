@@ -4,8 +4,8 @@
         <input type="text" id="nickname" placeholder="Nickname">
         <input type="email" id="email" placeholder="E-mail">
         <input type="password" id="password" placeholder="Password">
-        <input type="password" id="password" placeholder="Repeat your password">
-        <button><p>SIGN UP</p></button>
+        <input type="password" id="password-repeat" placeholder="Repeat your password">
+        <button>SIGN UP</button>
         <div class="login_page">
             <p>Have already an account?</p>
             <a href="https://openclassrooms.com">Login here</a>
@@ -14,39 +14,29 @@
 </template>
 
 <script>
-import Web3 from 'web3'
+/*import Web3 from 'web3'
 import userJson from '../../../build/contracts/UserCrypto.json'
 
-var web3 = new Web3(Web3.currentProvider)
-var userContract = new web3.eth.Contract(userJson.abi, "0x893Cfd486C10B1f18d0963C44d56B1eE954C565E")
-var userAccount
+var web3 = new Web3("http://127.0.0.1:8545")
+var userContract = new web3.eth.Contract(userJson.abi, "0x5CAB4B21f7ED9DE11b33ce8D457a689A15576bE4")
 
-web3.eth.getAccounts().then(function(r){console.log(r);
-})
-
-setInterval(function(){
-    if(web3.eth.accounts[0] !== userAccount)
-    {
-        userAccount = web3.eth.accounts[0]
-    }
-}, 100)
-console.log(web3.eth.accounts[0]);
-
-userContract.methods.login("bite").send({from:"0x50Ec9617b5da73Bcc627fD1C61Df7DCe587BC99b"}).then(function(receipt){
+userContract.methods.login( "mdp").send({from:"0x36E469C35E7B5129a959fdbDa723ED5292E40D4e", gas:1000000}).then(function(receipt){
     console.log(receipt);
-})
+})*/
 
 export default {
-    
+    data: function(){
+        return{
+            
+        }
+    },
+    methods:{
+
+    }
 }
 </script>
 
 <style>
-*{
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-    text-decoration: none;
-}
 html, body{
     display: flex;
     width: 100%;
@@ -63,20 +53,21 @@ body{
     align-items: center;
     flex-direction: column;
     display: flex;
-    width: 550px;
-    height: 550px;
     background-color:white;
     border-radius: 10px;
+    max-width: 512px;
+    width: 100%;
+    padding-bottom: 20px;
 }
 .create{
     margin-top: 40px;
     margin-bottom: 40px;
     font-weight: 900;
-    font-size: 25px;
+    font-size: 2rem;
 }
 
-#nickname, #password, #email{
-    width: 400px;
+#nickname, #password, #email, #password-repeat{
+    width: 75%;
     height: 40px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -86,6 +77,7 @@ body{
     padding-left: 10px;
     outline: none;
 }
+
 button{
     box-shadow: none;
     border: 0;
@@ -93,7 +85,7 @@ button{
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    width: 400px;
+    width: 90%;
     height: 40px;
     margin-top: 30px;
     margin-bottom: 10px;
@@ -106,6 +98,11 @@ button{
     font-weight: 700;
     outline: none;
 }
+
+button:hover{
+    cursor: pointer;
+}
+
 .login_page{
     margin-top: 45px;
     display: flex;
