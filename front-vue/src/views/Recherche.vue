@@ -3,68 +3,67 @@
         <div class="barre_recherche">
             <p class="title">FIND A QUESTION</p>
             <div class="haut">
-        <div class="barre">
-            <input type="text" id="recherche" placeholder="Type your question">
-            <button class="bouton1"><p id="search_button">Search</p><svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><title/><desc/><defs/><g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1"><g fill="white" id="icon-111-search"><path d="M19.4271164,20.4271164 C18.0372495,21.4174803 16.3366522,22 14.5,22 C9.80557939,22 6,18.1944206 6,13.5 C6,8.80557939 9.80557939,5 14.5,5 C19.1944206,5 23,8.80557939 23,13.5 C23,15.8472103 22.0486052,17.9722103 20.5104077,19.5104077 L26.5077736,25.5077736 C26.782828,25.782828 26.7761424,26.2238576 26.5,26.5 C26.2219324,26.7780676 25.7796227,26.7796227 25.5077736,26.5077736 L19.4271164,20.4271164 L19.4271164,20.4271164 Z M14.5,21 C18.6421358,21 22,17.6421358 22,13.5 C22,9.35786417 18.6421358,6 14.5,6 C10.3578642,6 7,9.35786417 7,13.5 C7,17.6421358 10.3578642,21 14.5,21 L14.5,21 Z" id="search"/></g></g></svg></button>
-        </div>
-        <div class="ask">
-        <button class="bouton2"><p class="ask_bouton">ASK QUESTION</p></button>
-
-        </div>
-        </div>
+                <div class="barre">
+                    <input type="text" id="recherche" placeholder="Type your question">
+                    <button class="bouton1"><p id="search_button">Search</p><svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><title/><desc/><defs/><g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1"><g fill="white" id="icon-111-search"><path d="M19.4271164,20.4271164 C18.0372495,21.4174803 16.3366522,22 14.5,22 C9.80557939,22 6,18.1944206 6,13.5 C6,8.80557939 9.80557939,5 14.5,5 C19.1944206,5 23,8.80557939 23,13.5 C23,15.8472103 22.0486052,17.9722103 20.5104077,19.5104077 L26.5077736,25.5077736 C26.782828,25.782828 26.7761424,26.2238576 26.5,26.5 C26.2219324,26.7780676 25.7796227,26.7796227 25.5077736,26.5077736 L19.4271164,20.4271164 L19.4271164,20.4271164 Z M14.5,21 C18.6421358,21 22,17.6421358 22,13.5 C22,9.35786417 18.6421358,6 14.5,6 C10.3578642,6 7,9.35786417 7,13.5 C7,17.6421358 10.3578642,21 14.5,21 L14.5,21 Z" id="search"/></g></g></svg></button>
+                </div>
+                <div class="ask">
+                    <button class="bouton2" v-on:click="goToAsk()"><p class="ask_bouton">ASK QUESTION</p></button>
+                </div>
+            </div>
         </div>
         <div class="result">
-        <p class="title2">LATEST QUESTIONS</p>
-        <div class="print_result">
-            <div class="column">
-            <p class="cat1  ">TITLE</p>
-            <p class="cat2">RESUME</p>
-            <p class="cat3">PUBLICATION DATE</p>
-            <p class="cat3">WRITER</p>
-            <p class="cat3">ANSWERED</p>
+            <p class="title2">LATEST QUESTIONS</p>
+            <div class="print_result">
+                <div class="column">
+                    <p class="cat1  ">TITLE</p>
+                    <p class="cat2">RESUME</p>
+                    <p class="cat3">PUBLICATION DATE</p>
+                    <p class="cat3">WRITER</p>
+                    <p class="cat3">ANSWERED</p>
+                </div>
+                <div class="block_question" v-on:click="goToQuestion()">
+                    <p class="cat4">What are CN, OU, DC in an LDAP search?</p>
+                    <div class="cat5">
+                        <p class="long">These are all parts of the X.500 Directory Specification, which defines nodes in a LDAP directory. You can also read up on LDAP data Interchange Format (LDIF), which is an alternate format. You read it from right to left, the right-most component is the root of the tree,</p>
+                    </div>
+                    <p class="cat6">09/07/19</p>
+                    <p class="cat6">Johnny</p>
+                    <p class="cat6">YES</p>
+                </div>
+                <div class="block_question" v-on:click="goToQuestion()">
+                    <p class="cat4">What are CN, OU, DC in an LDAP search?</p>
+                    <div class="cat5">
+                        <p class="long">These are all parts of the X.500 Directory Specification, which defines nodes in a LDAP directory. You can also read up on LDAP data Interchange Format (LDIF), which is an alternate format. You read it from right to left, the right-most component is the root of the tree,</p>
+                    </div>
+                    <p class="cat6">09/07/19</p>
+                    <p class="cat6">Johnny</p>
+                    <p class="cat6">NO</p>
+                </div>
             </div>
-        <div class="block_question">
-            <p class="cat4">What are CN, OU, DC in an LDAP search?</p>
-            <div class="cat5"><p class="long">These are all parts of the X.500 Directory Specification, which defines nodes in a LDAP directory. You can also read up on LDAP data Interchange Format (LDIF), which is an alternate format. You read it from right to left, the right-most component is the root of the tree,</p></div>
-            <p class="cat6">09/07/19</p>
-            <p class="cat6">Johnny</p>
-            <p class="cat6">YES</p>
         </div>
-        <div class="block_question">
-            <p class="cat4">What are CN, OU, DC in an LDAP search?</p>
-            <div class="cat5"><p class="long">These are all parts of the X.500 Directory Specification, which defines nodes in a LDAP directory. You can also read up on LDAP data Interchange Format (LDIF), which is an alternate format. You read it from right to left, the right-most component is the root of the tree,</p></div>
-            <p class="cat6">09/07/19</p>
-            <p class="cat6">Johnny</p>
-            <p class="cat6">NO</p>
-        </div>
-        </div>
-        </div>
-        </div>
+    </div>
 </template>
 
 <script>
 export default {
-    
+    data: function(){
+        return{
+
+        }
+    },
+    methods:{
+        goToAsk: function(){
+            this.$router.push("ask");
+        },
+        goToQuestion: function(){
+            this.$router.push("question");
+        }
+    }
 }
 </script>
 
 <style>
-*{
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-    text-decoration: none;
-}
-html, body{
-    display: flex;
-    width: 100%;
-    height: 100%;   
-    margin: 0;
-    background-color: whitesmoke;
-}
-body{
-    justify-content: center;
-    flex-direction: row;
-}
 .forum{
     margin-top: 5%;
     margin-left: 10%;

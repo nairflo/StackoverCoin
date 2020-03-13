@@ -1,14 +1,14 @@
 <template>
     <div class="inscription">
         <p class="create">CREATE ACCOUNT</p>
-        <input type="text" id="nickname" placeholder="Nickname">
-        <input type="email" id="email" placeholder="E-mail">
-        <input type="password" id="password" placeholder="Password">
-        <input type="password" id="password-repeat" placeholder="Repeat your password">
-        <button>SIGN UP</button>
+        <input type="text" id="nickname" placeholder="Nickname" v-model="formulaire.pseudo">
+        <input type="email" id="email" placeholder="E-mail" v-model="formulaire.mail">
+        <input type="password" id="password" placeholder="Password" v-model="formulaire.mdp">
+        <input type="password" id="password-repeat" placeholder="Repeat your password" v-model="formulaire.mdp2">
+        <button v-on:click="register()">SIGN UP</button>
         <div class="login_page">
             <p>Have already an account?</p>
-            <a href="https://openclassrooms.com">Login here</a>
+            <a v-on:click="goToLogin()">Login here</a>
         </div>
     </div>
 </template>
@@ -27,11 +27,34 @@ userContract.methods.login( "mdp").send({from:"0x36E469C35E7B5129a959fdbDa723ED5
 export default {
     data: function(){
         return{
-            
+            formulaire:{
+                pseudo: "",
+                mail: "",
+                mdp: "",
+                mdp2: ""
+            }
         }
     },
     methods:{
-
+        goToLogin: function(){
+            this.$router.push('login');
+        },
+        register: function(){
+            console.log(this.formulaire);
+            if( this.formulaire.pseudo !== "" &&
+                this.formulaire.mail !== "" &&
+                this.formulaire.mdp !== "" &&
+                this.formulaire.mdp2 !== "" &&
+                this.formulaire.mdp === this.formulaire.mdp2)
+            {
+                console.log("Appel de la blockchain pour register");  
+            }
+            else
+            {
+                console.log("Erreur de saisie");
+                
+            }
+        }
     }
 }
 </script>
@@ -120,5 +143,6 @@ button:hover{
      color: black;
      text-decoration-color: black;
      text-decoration: underline;
+     cursor: pointer;
  }
 </style>
