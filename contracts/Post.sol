@@ -14,7 +14,8 @@ contract PostFactory {
     }
 
     struct Post{
-        string text;
+        string titre;
+        string contenue;
         uint id;
         uint nbAnswer;
         mapping(uint => Reponse) responses;
@@ -52,9 +53,9 @@ event answerPosted(
 event getAllpostsEvent(uint[] allpostsID);
 event likeAnswerEvent(uint idpost, uint idAnswer);
 
-    function newPost(string memory _text) public {
+    function newPost(string memory _titre,string memory _text) public {
         uint id = posts.length;
-        posts.push(Post(_text,id,0));
+        posts.push(Post(_titre,_text,id,0));
         postToOwnerMapping[id] = msg.sender;
         ownerToPostMapping[msg.sender]++;
         emit Posted(msg.sender,_text,id);

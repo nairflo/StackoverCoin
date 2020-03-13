@@ -14,15 +14,7 @@
 </template>
 
 <script>
-/*import Web3 from 'web3'
-import userJson from '../../../build/contracts/UserCrypto.json'
-
-var web3 = new Web3("http://127.0.0.1:8545")
-var userContract = new web3.eth.Contract(userJson.abi, "0x5CAB4B21f7ED9DE11b33ce8D457a689A15576bE4")
-
-userContract.methods.login( "mdp").send({from:"0x36E469C35E7B5129a959fdbDa723ED5292E40D4e", gas:1000000}).then(function(receipt){
-    console.log(receipt);
-})*/
+import Web3 from 'web3'
 
 export default {
     data: function(){
@@ -54,9 +46,72 @@ export default {
                 console.log("Erreur de saisie");
                 
             }
+        }, 
+        checkWeb3() {
+            let web3 = window.web3;
+            if (typeof web3 === 'undefined') {
+                this.web3 = null;
+                this.Log(this.MetamaskMsg.METAMASK_NOT_INSTALL, "NO_INSTALL_METAMASK");
+            }
+        },
+        checkAccounts() {
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                try {
+                    // Request account access if needed
+                    window.ethereum.enable();
+                } catch (error) {
+                    // User denied account access...
+                }
+            } else if (window.web3) { // Legacy dapp browsers...
+                window.web3 = new Web3(window.web3.currentProvider);
+            } else { // Non-dapp browsers...
+                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            }
+            this.web3=window.web3;
+            this.web3.eth.getAccounts((err, accounts) => {
+            if (err != null) return this.Log(this.MetamaskMsg.NETWORK_ERROR, "NETWORK_ERROR");
+                if (accounts.length === 0){
+                    this.MetaMaskAddress = "";
+                    this.Log(this.MetamaskMsg.EMPTY_METAMASK_ACCOUNT, 'NO_LOGIN');
+                    return;
+                } 
+                console.log(this.MetaMaskAddress)
+                this.MetaMaskAddress = accounts[0]; // user Address
+            });
+        },
+        Log(msg, type=""){
+            const letType = type;
+            if(letType === this.type) return;
+            const message = this.userMessage === "null" ? msg : this.userMessage;
+            this.type = type;
+            this.$emit("onComplete", {
+                web3: this.web3,
+                type,
+                metaMaskAddress: this.MetaMaskAddress,
+                message,
+                netID: this.netID,
+            });
+        },
+        web3TimerCheck(web3){
+            this.web3 = web3;
+            this.checkAccounts();
+            this.Web3Interval = setInterval(()=> this.checkWeb3(), 1000);
+            this.AccountInterval = setInterval(()=> this.checkAccounts(), 1000);
+        }
+    },
+    async mounted(){
+        if (window.web3) {
+            window.web3 = new Web3(window.web3.eth.currentProvider);
+            this.web3TimerCheck(window.web3);
+        } else {
+            this.web3 = null;
+            this.Log(this.MetamaskMsg.METAMASK_NOT_INSTALL, "NO_INSTALL_METAMASK");
+            console.error('Non-Ethereum browser detected. You should consider trying MetaMask!');
         }
     }
-}
+};
+
 </script>
 
 <style>
