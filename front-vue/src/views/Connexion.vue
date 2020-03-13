@@ -1,13 +1,13 @@
 <template>
     <div class="inscription">
         <p class="create">CREATE ACCOUNT</p>
-        <input type="text" id="nickname" placeholder="Nickname">
+        <input v-bind="pseudo" type="text" id="nickname" placeholder="Nickname">
         <input type="email" id="email" placeholder="E-mail">
         <input type="password" id="password" placeholder="Password">
         <input type="password" id="password" placeholder="Repeat your password">
-        <button><p>SIGN UP</p></button>
+        <button v-on:click="register">SIGN UP</button>
         <div class="login_page">
-            <p>Have already an account?</p>
+            <p >Have already an account?</p>
             <a href="https://openclassrooms.com">Login here</a>
         </div>
     </div>
@@ -15,30 +15,80 @@
 
 <script>
 import Web3 from 'web3'
-import userJson from '../../../build/contracts/UserCrypto.json'
-
-var web3 = new Web3(Web3.currentProvider)
-var userContract = new web3.eth.Contract(userJson.abi, "0x893Cfd486C10B1f18d0963C44d56B1eE954C565E")
-var userAccount
-
-web3.eth.getAccounts().then(function(r){console.log(r);
-})
-
-setInterval(function(){
-    if(web3.eth.accounts[0] !== userAccount)
-    {
-        userAccount = web3.eth.accounts[0]
-    }
-}, 100)
-console.log(web3.eth.accounts[0]);
-
-userContract.methods.login("bite").send({from:"0x50Ec9617b5da73Bcc627fD1C61Df7DCe587BC99b"}).then(function(receipt){
-    console.log(receipt);
-})
 
 export default {
-    
-}
+    data: {
+        pseudo:""
+    },
+    methods:{
+        
+        register(){
+            alert(pseudo)
+        },
+        checkWeb3() {
+            let web3 = window.web3;
+            if (typeof web3 === 'undefined') {
+                this.web3 = null;
+                this.Log(this.MetamaskMsg.METAMASK_NOT_INSTALL, "NO_INSTALL_METAMASK");
+            }
+        },
+        checkAccounts() {
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                try {
+                    // Request account access if needed
+                    window.ethereum.enable();
+                } catch (error) {
+                    // User denied account access...
+                }
+            } else if (window.web3) { // Legacy dapp browsers...
+                window.web3 = new Web3(window.web3.currentProvider);
+            } else { // Non-dapp browsers...
+                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            }
+            this.web3=window.web3;
+            this.web3.eth.getAccounts((err, accounts) => {
+            if (err != null) return this.Log(this.MetamaskMsg.NETWORK_ERROR, "NETWORK_ERROR");
+                if (accounts.length === 0){
+                    this.MetaMaskAddress = "";
+                    this.Log(this.MetamaskMsg.EMPTY_METAMASK_ACCOUNT, 'NO_LOGIN');
+                    return;
+                } 
+                console.log(this.MetaMaskAddress)
+                this.MetaMaskAddress = accounts[0]; // user Address
+            });
+        },
+        Log(msg, type=""){
+            const letType = type;
+            if(letType === this.type) return;
+            const message = this.userMessage === "null" ? msg : this.userMessage;
+            this.type = type;
+            this.$emit("onComplete", {
+                web3: this.web3,
+                type,
+                metaMaskAddress: this.MetaMaskAddress,
+                message,
+                netID: this.netID,
+            });
+        },
+        web3TimerCheck(web3){
+            this.web3 = web3;
+            this.checkAccounts();
+            this.Web3Interval = setInterval(()=> this.checkWeb3(), 1000);
+            this.AccountInterval = setInterval(()=> this.checkAccounts(), 1000);
+        }
+    },
+    async mounted(){
+        if (window.web3) {
+            window.web3 = new Web3(window.web3.eth.currentProvider);
+            this.web3TimerCheck(window.web3);
+        } else {
+            this.web3 = null;
+            this.Log(this.MetamaskMsg.METAMASK_NOT_INSTALL, "NO_INSTALL_METAMASK");
+            console.error('Non-Ethereum browser detected. You should consider trying MetaMask!');
+        }
+    }
+};
 </script>
 
 <style>
