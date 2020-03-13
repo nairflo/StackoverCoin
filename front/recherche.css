@@ -2,6 +2,8 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     text-decoration: none;
+    margin: 0;
+    padding: 0;
 }
 html, body{
     display: flex;
@@ -87,11 +89,7 @@ body{
       box-shadow: none;
       outline: none;
     }
-    p{
-        padding: 0;
-        margin: 0;
-    }
-    svg{
+    .rech_svg{
         color: white;
     }
     #search_button{

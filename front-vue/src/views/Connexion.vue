@@ -89,14 +89,10 @@ export default {
         }
     }
 };
+
 </script>
 
 <style>
-*{
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-    text-decoration: none;
-}
 html, body{
     display: flex;
     width: 100%;
@@ -113,20 +109,21 @@ body{
     align-items: center;
     flex-direction: column;
     display: flex;
-    width: 550px;
-    height: 550px;
     background-color:white;
     border-radius: 10px;
+    max-width: 512px;
+    width: 100%;
+    padding-bottom: 20px;
 }
 .create{
     margin-top: 40px;
     margin-bottom: 40px;
     font-weight: 900;
-    font-size: 25px;
+    font-size: 2rem;
 }
 
-#nickname, #password, #email{
-    width: 400px;
+#nickname, #password, #email, #password-repeat{
+    width: 75%;
     height: 40px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -136,6 +133,7 @@ body{
     padding-left: 10px;
     outline: none;
 }
+
 button{
     box-shadow: none;
     border: 0;
@@ -143,7 +141,7 @@ button{
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    width: 400px;
+    width: 90%;
     height: 40px;
     margin-top: 30px;
     margin-bottom: 10px;
@@ -156,6 +154,11 @@ button{
     font-weight: 700;
     outline: none;
 }
+
+button:hover{
+    cursor: pointer;
+}
+
 .login_page{
     margin-top: 45px;
     display: flex;
