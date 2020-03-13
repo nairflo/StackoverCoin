@@ -16,23 +16,23 @@ body{
     align-items: center;
     flex-direction: row;
 }
-.inscription{
+.login{
     align-items: center;
     flex-direction: column;
     display: flex;
     width: 550px;
-    height: 550px;
+    height: 350px;
     background-color:white;
     border-radius: 10px;
 }
-.create{
+.log_create{
     margin-top: 40px;
     margin-bottom: 40px;
     font-weight: 900;
     font-size: 25px;
 }
 
-#nickname, #password, #email{
+#log_nickname, #log_password{
     width: 400px;
     height: 40px;
     margin-top: 10px;
@@ -43,7 +43,7 @@ body{
     padding-left: 10px;
     outline: none;
 }
-.con_button{
+.log_button{
     box-shadow: none;
     border: 0;
     display: flex;
@@ -63,21 +63,3 @@ body{
     font-weight: 700;
     outline: none;
 }
-.login_page{
-    margin-top: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    height: 45px;
-
-}
-.con_p, .con_a{
-     margin: 0;
- }
-
-.con_a{
-     color: black;
-     text-decoration-color: black;
-     text-decoration: underline;
- }

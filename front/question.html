@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="question.css" rel="stylesheet">
+  <title>STO</title>
+</head>
+<div class="que_general">
+    <p class="que_block_titre">QUESTION</p>
+<div class="que_question">
+    <p class="que_titre">What are CN, OU, DC in an LDAP search?</p>
+    <p class="que_desc">I've been in touch with LDAP in many projects I've been involved in but, the truth be told, I don't really understand it. I thought it was just a person directory but after I discovered that it can contain any objects in a hierarchical structure.
+
+        I installed openldap in my box and I found many tutorials regarding just the installation.
+        
+        What is LDAP? What are the scenarios where LDAP is the right choice? What are the LDAP concepts I should know for working with it? What are the advantages of LDAP? Is it used just because old applications used it? Is there a good doc anywhere on internet explaining all this questions?</p>
+</div>
+<p class="que_block_titre">ANSWERS</p>
+<div class="que_answer">
+<div class="que_an_answer">
+    <div class="que_vote">
+<svg class="que_svg"version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<ellipse style="fill:#32BEA6;" cx="256" cy="256" rx="256" ry="255.832"/>
+<polygon style="fill:#FFFFFF;" points="235.472,392.08 114.432,297.784 148.848,253.616 223.176,311.52 345.848,134.504 
+	391.88,166.392 "/>
+</svg>
+<p class="que_nbr_vote">19</p>
+</div>
+<p class="que_answer_answer">hat is LDAP? What are the scenarios where LDAP is the right choice? What are the LDAP concepts I should know for working with it? What are the advantages of LDAP? Is it used just because old applications used it? Is there a good doc anywhere on internet explaining all this question DITs are a hierarchical description scheme that lend themselves to B-Tree algos very nicely, resulting in tremendous search performance in most cases. Directory Server like OpenDS return indexed searches in micro-seconds, whereas RDBMS systems are much slower. Directory Servers (often called LDAP servers) trade resources (RAM, CPU) for fast read response. RDBMS systems provide greater functionality in terms of management of data in question. Need speed with few or zero updates, simplicity, and small network protocol? Use a Directory Server. Need data management and mining capabilities, and/or high rate-of-change of the database with relational aspects defined between data? Use an RDBMS (MySQL is your best bet here).</p>
+<button class="que_button">VOTE</button>
+</div>
+<div class="que_an_answer">
+<div class="que_vote">
+<div class="que_svg"></div>
+<p class="que_nbr_vote">2</p>
+</div>
+<p class="que_answer_answer">hat is LDAP? What are the scenarios where LDAP is the right choice? What are the LDAP concepts I should know for working with it? What are the advantages of LDAP? Is it used just because old applications used it? Is there a good doc anywhere on internet explaining all this question DITs are a hierarchical description scheme that lend themselves to B-Tree algos very nicely, resulting in tremendous search performance in most cases. Directory Server like OpenDS return indexed searches in micro-seconds, whereas RDBMS systems are much slower. Directory Servers (often called LDAP servers) trade resources (RAM, CPU) for fast read response. RDBMS systems provide greater functionality in terms of management of data in question. Need speed with few or zero updates, simplicity, and small network protocol? Use a Directory Server. Need data management and mining capabilities, and/or high rate-of-change of the database with relational aspects defined between data? Use an RDBMS (MySQL is your best bet here).</p>
+<button class="que_button">VOTE</button>
+</div>
+</div>
+<p class="que_block_titre">YOUR ANSWER</p>
+<div class="que_text">
+    <textarea class="que_type" placeholder="Type here"></textarea>
+    <div class="que_button_send">
+        <button class="que_button_send_type">Post your answer</button>
+    </div>
+</div>
+</div>
+</html>
