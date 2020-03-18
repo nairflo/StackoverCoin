@@ -94,33 +94,32 @@ event likeAnswerEvent(uint idpost, uint idAnswer);
         posts[_postid].nbAnswer++;
         return true;
     }
-    function getPostById(uint _postid) public returns (string memory titre,string memory contenue, bool validate, uint nbAnswer, address author){
+    function getPostById(uint _postid) public view returns (string memory titre,string memory contenue,uint id,
+     bool validate, uint nbAnswer, address author){
         bool responseVal = false;
         for(uint i = 0; i<posts[_postid].nbAnswer;i++) {
             if(posts[_postid].responses[i].state==State.nonVal){
                 responseVal = true;
             }
         }
-        return (posts[_postid].titre,posts[_postid].contenue,responseVal,posts[_postid].nbAnswer,posts[_postid].author);
+        return (posts[_postid].titre,posts[_postid].contenue,_postid,responseVal,posts[_postid].nbAnswer,posts[_postid].author);
     }
+        mapping(uint => Reponse) responses;
 
-    function getAnswersByPost(uint _post) public returns (Reponse[] memory){
-        Reponse[] memory res;
-        for(uint i = 0;i<posts[_post].nbAnswer;i++){
-            res[i] = (posts[_post].responses[i]);
-        }
-        emit getAllres(res);
-        return res;
+    function getAnswerByPost(uint _post, uint _id) public view returns (string memory text,address author,bool state,uint nblike,uint id,address[] memory likeur){
+        return (posts[_post].responses[_id].text, posts[_post].responses[_id].author,
+         posts[_post].responses[_id].state==State.val,posts[_post].responses[_id].nblike,posts[_post].responses[_id].id,posts[_post].responses[_id].like);
     }
 
     function likeAnswer(uint _post, uint _id) public {
-        posts[_post].responses[_id].like[posts[_post].responses[_id].nblike] = msg.sender;
+        require(msg.sender!=posts[_post].responses[_id].author, "You can't like your own answer");
+        posts[_post].responses[_id].like.push(msg.sender);
         posts[_post].responses[_id].nblike++;
-        emit likeAnswerEvent(_post,_id);
     }
 
     function validateAnswer(uint _post, uint _id) public{
+        require(msg.sender==posts[_post].author, "You can't validate if is not your post");
+        require(msg.sender==posts[_post].responses[_id].author, "You can't validate your own answer");
         posts[_post].responses[_id].state = State.val;
-        emit validateAnswerEvent(msg.sender,_id,posts[_post].responses[_id].author);
     }
 }

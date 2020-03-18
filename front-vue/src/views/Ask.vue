@@ -33,9 +33,9 @@ export default {
             if(this.titre != "" && this.desc != "")
             {
                 let web3 = window.web3;
-                const NameContract = new web3.eth.Contract(userContract_abi.abi, "0xf98d1B951606Cb896CAE6413F6490535FCdF9Ca3");
+                const NameContract = new web3.eth.Contract(userContract_abi.abi, "0x0E56465FDC52951396826449E8C8c266d60cB64f");
                 console.log(NameContract)
-                const NameContractpost = new web3.eth.Contract(postContract_abi.abi, "0x83A49E28B1fb11208a3cDdd7153A349Fa3963fF5");
+                const NameContractpost = new web3.eth.Contract(postContract_abi.abi, "0x283EA5a7b7C5719d3256533E297dCE93E9f1F216");
                 await NameContractpost.methods.newPost(this.titre,this.desc)
                 .send({from:this.MetaMaskAddress})
                 

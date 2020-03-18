@@ -18,18 +18,14 @@
                 <div class="column">
                     <p class="cat1  ">TITLE</p>
                     <p class="cat2">RESUME</p>
-                    <p class="cat3">PUBLICATION DATE</p>
                     <p class="cat3">WRITER</p>
                     <p class="cat3">ANSWERED</p>
                 </div>
-                <div class="block_question" v-on:click="goToQuestion()" v-for="post in allPost" v-bind:key="post">
+                <div class="block_question" v-on:click="goToQuestion(post[2])" v-for="post in allPost" v-bind:key="post">
                     <p class="cat4">{{post[0]}}</p>
-                    <div class="cat5">
-                        <p class="long">{{post[1]}}</p>
-                    </div>
-                    <p class="cat6">09/07/19</p>
-                    <p class="cat6">{{post[5][1]}}</p>
-                    <p class="cat6">{{post[2]}}</p>
+                    <p class="cat5">{{post[1]}}</p>
+                    <p class="cat6">{{post[6][1]}}</p>
+                    <p class="cat6">{{post[3]}}</p>
                 </div>
             </div>
         </div>
@@ -51,19 +47,19 @@ export default {
         goToAsk: function(){
             this.$router.push("ask");
         },
-        goToQuestion: function(){
-            this.$router.push("question");
+        goToQuestion: function(id){
+         this.$router.push({ path: `/question/${id}` })
         },
         getAllPost: async function(){
                 let web3 = window.web3;
-                const NameContract = new web3.eth.Contract(userContract_abi.abi, "0xf98d1B951606Cb896CAE6413F6490535FCdF9Ca3");
-                const NameContractpost = new web3.eth.Contract(postContract_abi.abi, "0x83A49E28B1fb11208a3cDdd7153A349Fa3963fF5");
+                const NameContract = new web3.eth.Contract(userContract_abi.abi, "0x0E56465FDC52951396826449E8C8c266d60cB64f");
+                const NameContractpost = new web3.eth.Contract(postContract_abi.abi, "0x283EA5a7b7C5719d3256533E297dCE93E9f1F216");
                 let res= await NameContractpost.methods.getAllPost()
                 .call({from:this.MetaMaskAddress})
                 console.log(res)
                 res.map(async (index)=>{
                     let post= await NameContractpost.methods.getPostById(index).call({from:this.MetaMaskAddress});
-                    post[5]=await NameContract.methods.getDetails(post[4]).call({from:this.MetaMaskAddress});
+                    post[6]=await NameContract.methods.getDetails(post[5]).call({from:this.MetaMaskAddress});
                     this.allPost.push(post);
                     console.log(this.allPost);
                 })
@@ -113,7 +109,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .forum{
     margin-top: 5%;
     margin-left: 10%;
@@ -186,7 +182,6 @@ font-family: 'Roboto', sans-serif;
     margin-right: 20px;
     box-shadow: none;
     outline: none;
-    cursor: pointer;
 }
 p{
     padding: 0;
@@ -267,10 +262,6 @@ svg{
     align-items: center;
     padding-bottom: 20px;
     padding-top: 20px;
-    cursor: pointer;
-}
-.block_question:hover{
-    background-color: rgb(230, 230, 230);
 }
 
 .cat4{
@@ -305,7 +296,7 @@ svg{
     width: 100%;
 }
 .bouton2{
-    width: 90%;
+    width: 250px;
     height: 60px;
     border-radius: 10px;
     outline: none;

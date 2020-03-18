@@ -3,18 +3,15 @@
         <button class="back_button" v-on:click="back()"><p>BACK</p></button>
         <p class="que_block_titre">QUESTION</p>
         <div class="que_question">
-            <p class="que_titre">What are CN, OU, DC in an LDAP search?</p>
+            <p class="que_titre">{{post[0]}}</p>
             <p class="que_desc">
-                I've been in touch with LDAP in many projects I've been involved in but, the truth be told, I don't really understand it. I thought it was just a person directory but after I discovered that it can contain any objects in a hierarchical structure.
-                I installed openldap in my box and I found many tutorials regarding just the installation.
-                What is LDAP? What are the scenarios where LDAP is the right choice? What are the LDAP concepts I should know for working with it? What are the advantages of LDAP? Is it used just because old applications used it? Is there a good doc anywhere on internet explaining all this questions?
-            </p>
+               {{post[1]}}</p>
         </div>
         <p class="que_block_titre">ANSWERS</p>
         <div class="que_answer">
-            <div class="que_an_answer">
+            <div class="que_an_answer" v-for="answer in answers" v-bind:key="answer">
                 <div class="que_vote">
-                    <svg    class="que_svg"
+                    <svg   v-if="answer[2]" class="que_svg"
                             version="1.1" 
                             id="Layer_1" 
                             xmlns="http://www.w3.org/2000/svg" 
@@ -27,40 +24,113 @@
                         <ellipse style="fill:#32BEA6;" cx="256" cy="256" rx="256" ry="255.832"/>
                         <polygon style="fill:#FFFFFF;" points="235.472,392.08 114.432,297.784 148.848,253.616 223.176,311.52 345.848,134.504, 391.88,166.392 "/>
                     </svg>
-                    <p class="que_nbr_vote">19</p>
+                    <p class="que_nbr_vote">{{answer[3]}}</p>
                 </div>
-                <p class="que_answer_answer">hat is LDAP? What are the scenarios where LDAP is the right choice? What are the LDAP concepts I should know for working with it? What are the advantages of LDAP? Is it used just because old applications used it? Is there a good doc anywhere on internet explaining all this question DITs are a hierarchical description scheme that lend themselves to B-Tree algos very nicely, resulting in tremendous search performance in most cases. Directory Server like OpenDS return indexed searches in micro-seconds, whereas RDBMS systems are much slower. Directory Servers (often called LDAP servers) trade resources (RAM, CPU) for fast read response. RDBMS systems provide greater functionality in terms of management of data in question. Need speed with few or zero updates, simplicity, and small network protocol? Use a Directory Server. Need data management and mining capabilities, and/or high rate-of-change of the database with relational aspects defined between data? Use an RDBMS (MySQL is your best bet here).</p>
-                <button class="que_button">VOTE</button>
+                <p class="que_answer_answer">{{answer[0]}}</p>
+                <button class="que_button" v-on:click="vote(answer[4])">VOTE</button>
             </div>
-            <div class="que_an_answer">
-                <div class="que_vote">
-                    <div class="que_svg"></div>
-                        <p class="que_nbr_vote">2</p>
-                    </div>
-                    <p class="que_answer_answer">hat is LDAP? What are the scenarios where LDAP is the right choice? What are the LDAP concepts I should know for working with it? What are the advantages of LDAP? Is it used just because old applications used it? Is there a good doc anywhere on internet explaining all this question DITs are a hierarchical description scheme that lend themselves to B-Tree algos very nicely, resulting in tremendous search performance in most cases. Directory Server like OpenDS return indexed searches in micro-seconds, whereas RDBMS systems are much slower. Directory Servers (often called LDAP servers) trade resources (RAM, CPU) for fast read response. RDBMS systems provide greater functionality in terms of management of data in question. Need speed with few or zero updates, simplicity, and small network protocol? Use a Directory Server. Need data management and mining capabilities, and/or high rate-of-change of the database with relational aspects defined between data? Use an RDBMS (MySQL is your best bet here).</p>
-                    <button class="que_button">VOTE</button>
-                </div>
-            </div>
-            <p class="que_block_titre">YOUR ANSWER</p>
-            <div class="que_text">
-                <textarea class="que_type" placeholder="Type here"></textarea>
-                <div class="que_button_send">
-                <button class="que_button_send_type">Post your answer</button>
+        </div>
+        <p class="que_block_titre">YOUR ANSWER</p>
+        <div class="que_text">
+            <textarea class="que_type" placeholder="Type here" v-model="text"></textarea>
+            <div class="que_button_send">
+                <button class="que_button_send_type" v-on:click="answer()">Post your answer</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import Web3 from 'web3'
+import userContract_abi from '../../../build/contracts/UserCrypto.json'
+import postContract_abi from '../../../build/contracts/PostFactory.json'
+
 export default {
     data: function(){
         return{
-
+            post:[],
+            answers:[],
+            text:""
         }
     },
     methods:{
         back: function(){
             this.$router.push("search");
+            this.$route.params.id;
+        },
+        async getPost(id){
+                    let web3 = window.web3;
+                    const NameContract = new web3.eth.Contract(userContract_abi.abi, "0x0E56465FDC52951396826449E8C8c266d60cB64f");
+                    const NameContractpost = new web3.eth.Contract(postContract_abi.abi, "0x283EA5a7b7C5719d3256533E297dCE93E9f1F216");
+                    this.post= await NameContractpost.methods.getPostById(id).call({from:this.MetaMaskAddress});
+                    this.post[6]=await NameContract.methods.getDetails(this.post[5]).call({from:this.MetaMaskAddress});
+        },
+        async getResponse(id){
+                    let web3 = window.web3;
+                    const NameContractpost = new web3.eth.Contract(postContract_abi.abi, "0x283EA5a7b7C5719d3256533E297dCE93E9f1F216");
+                    this.post= await NameContractpost.methods.getPostById(id).call({from:this.MetaMaskAddress});
+                    for(var i=0; i<this.post[4];i++){
+                        let answer = await NameContractpost.methods.getAnswerByPost(id,i).call({from:this.MetaMaskAddress});
+                        this.answers.push(answer);
+                    }
+                    console.log(this.answers)
+        },
+        async answer(){
+            let web3 = window.web3;
+            const NameContractpost = new web3.eth.Contract(postContract_abi.abi, "0x283EA5a7b7C5719d3256533E297dCE93E9f1F216");
+            await NameContractpost.methods.newAnswer(this.text,this.$route.params.id).send({from:this.MetaMaskAddress});
+            this.text="";
+            this.answers=[];
+            this.getResponse(this.$route.params.id);
+        },
+        async vote(id_res){
+            let web3 = window.web3;
+            const NameContractpost = new web3.eth.Contract(postContract_abi.abi, "0x283EA5a7b7C5719d3256533E297dCE93E9f1F216");
+            await NameContractpost.methods.likeAnswer(this.$route.params.id,id_res).send({from:this.MetaMaskAddress});
+            this.answers=[]
+            this.getResponse(this.$route.params.id);
+        },
+        checkAccounts() {
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                try {
+                    // Request account access if needed
+                    window.ethereum.enable();
+                } catch (error) {
+                    // User denied account access...
+                }
+            } else if (window.web3) { // Legacy dapp browsers...
+                window.web3 = new Web3(window.web3.currentProvider);
+            } else { // Non-dapp browsers...
+                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            }
+            this.web3=window.web3;
+            this.web3.eth.getAccounts((err, accounts) => {
+            if (err != null) return this.Log(this.MetamaskMsg.NETWORK_ERROR, "NETWORK_ERROR");
+                if (accounts.length === 0){
+                    this.MetaMaskAddress = "";
+                    this.Log(this.MetamaskMsg.EMPTY_METAMASK_ACCOUNT, 'NO_LOGIN');
+                    return;
+                } 
+                this.MetaMaskAddress = accounts[0]; // user Address
+            });
+        },
+        web3TimerCheck(web3){
+            this.web3 = web3;
+            this.checkAccounts();
+            this.AccountInterval = setInterval(()=> this.checkAccounts(), 1000);
+        }
+    },
+    async mounted(){
+        if (window.web3) {
+            window.web3 = new Web3(window.web3.eth.currentProvider);
+            this.web3TimerCheck(window.web3);
+            this.getPost(this.$route.params.id);
+            this.getResponse(this.$route.params.id);
+        } else {
+            this.web3 = null;
+            this.Log(this.MetamaskMsg.METAMASK_NOT_INSTALL, "NO_INSTALL_METAMASK");
+            console.error('Non-Ethereum browser detected. You should consider trying MetaMask!');
         }
     }
 }

@@ -32,7 +32,6 @@ export default {
             this.$router.push('login');
         },
         register: async function(){
-            console.log(this.formulaire);
             if( this.formulaire.pseudo !== "" &&
                 this.formulaire.mail !== "" &&
                 this.formulaire.mdp !== "" &&
@@ -40,7 +39,7 @@ export default {
                 this.formulaire.mdp === this.formulaire.mdp2)
             {
                 let web3 = window.web3;
-                const NameContract = new web3.eth.Contract(userContract_abi.abi, "0xf98d1B951606Cb896CAE6413F6490535FCdF9Ca3");
+                const NameContract = new web3.eth.Contract(userContract_abi.abi, "0x0E56465FDC52951396826449E8C8c266d60cB64f");
                 let res= await NameContract.methods.register(this.formulaire.mail,this.formulaire.pseudo,this.formulaire.mdp,"")
                 .send({from:this.MetaMaskAddress})
                 console.log(res);

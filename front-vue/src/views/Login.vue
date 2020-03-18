@@ -25,7 +25,7 @@ export default {
             {
                 console.log("Login : " + this.nickname + " MDP : " + this.mdp);
                 let web3 = window.web3;
-                const NameContract = new web3.eth.Contract(userContract_abi.abi, "0xf98d1B951606Cb896CAE6413F6490535FCdF9Ca3");
+                const NameContract = new web3.eth.Contract(userContract_abi.abi, "0x0E56465FDC52951396826449E8C8c266d60cB64f");
                 let res= await NameContract.methods.login(this.nickname,this.mdp)
                 .call({from:this.MetaMaskAddress})
                 console.log("Appel de la blockchain pour register");
