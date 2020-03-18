@@ -46,14 +46,13 @@ contract UserCrypto {
         bytes32 password = keccak256(abi.encodePacked(_password));
         data[msg.sender] = User(_pseudo,_email,password,id++,true,avatar);
         emailXadd[_email] = msg.sender;
-        emit Registered(msg.sender,_pseudo,_email,id);
         return true;
     }
 
-    function login(string memory _password) public returns (address){
+    function login(string memory _pseudo,string memory _password) public view returns (address){
         require(data[msg.sender].registered,"your address is not registered");
         require(keccak256(abi.encodePacked(_password)) == data[msg.sender].password,"Incorrect password");
-        emit Loginemit(msg.sender,data[msg.sender].pseudo,data[msg.sender].email,data[msg.sender].regId);
+        require(_pseudo.equals(data[msg.sender].pseudo),"Incorrect email");
         return (msg.sender);
     }
     
@@ -64,19 +63,14 @@ contract UserCrypto {
         return (msg.sender);
     }
     
-    function getDetails()
-    public
-    view
-    returns(
-    string memory pseudo,
-    string memory email,
-    uint regId,
-    string memory avatar){
-        require(data[msg.sender].registered,"not registered");
+    function getDetails(address add) public view returns(string memory pseudo, string memory email, uint regId, string memory avatar){
+        require(data[add].registered,"not registered");
         return (
-        data[msg.sender].pseudo,
-        data[msg.sender].email,
-        data[msg.sender].regId,
-        data[msg.sender].avatar);
+        data[add].pseudo,
+        data[add].email,
+        data[add].regId,
+        data[add].avatar);
     }
+
+    
 }

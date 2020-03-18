@@ -6,7 +6,7 @@ contract PostFactory {
 
     struct Reponse{
         string text;
-        address payable author;
+        address author;
         State state;
         uint nblike;
         address[] like;
@@ -16,6 +16,7 @@ contract PostFactory {
     struct Post{
         string titre;
         string contenue;
+        address author;
         uint id;
         uint nbAnswer;
         mapping(uint => Reponse) responses;
@@ -55,7 +56,7 @@ event likeAnswerEvent(uint idpost, uint idAnswer);
 
     function newPost(string memory _titre,string memory _text) public {
         uint id = posts.length;
-        posts.push(Post(_titre,_text,id,0));
+        posts.push(Post(_titre,_text,msg.sender,id,0));
         postToOwnerMapping[id] = msg.sender;
         ownerToPostMapping[msg.sender]++;
         emit Posted(msg.sender,_text,id);
@@ -78,23 +79,29 @@ event likeAnswerEvent(uint idpost, uint idAnswer);
         return result;
     }
 
-    function getAllPost() public returns(uint[] memory){
+    function getAllPost() public view returns(uint[] memory){
         uint[] memory resu = new uint[](posts.length);
-        for(uint i = 0; i <= posts.length-1; i++){
-            resu[resu.length-1] = posts[i].id;
+        for(uint i = 0; i < posts.length; i++){
+            resu[i] = posts[i].id;
         }
-        emit getAllpostsEvent(resu);
         return resu;
     }
 
-    
     function newAnswer(string memory _text, uint _postid) public returns (bool){
         address[] memory like;
         uint id = posts[_postid].nbAnswer;
         posts[_postid].responses[id] = (Reponse(_text,msg.sender,State.nonVal,0,like,id));
         posts[_postid].nbAnswer++;
-        emit answerPosted(posts[_postid].responses[id]);
         return true;
+    }
+    function getPostById(uint _postid) public returns (string memory titre,string memory contenue, bool validate, uint nbAnswer, address author){
+        bool responseVal = false;
+        for(uint i = 0; i<posts[_postid].nbAnswer;i++) {
+            if(posts[_postid].responses[i].state==State.nonVal){
+                responseVal = true;
+            }
+        }
+        return (posts[_postid].titre,posts[_postid].contenue,responseVal,posts[_postid].nbAnswer,posts[_postid].author);
     }
 
     function getAnswersByPost(uint _post) public returns (Reponse[] memory){

@@ -8,6 +8,9 @@
 </template>
 
 <script>
+import Web3 from 'web3'
+import userContract_abi from '../../../build/contracts/UserCrypto.json'
+
 export default {
     data: function()
     {
@@ -17,18 +20,69 @@ export default {
         }
     },
     methods:{
-        login: function(){
+        login: async function(){
             if(this.nickname != "" && this.mdp != "")
             {
                 console.log("Login : " + this.nickname + " MDP : " + this.mdp);
-                this.$router.push("search");
+                let web3 = window.web3;
+                const NameContract = new web3.eth.Contract(userContract_abi.abi, "0xf98d1B951606Cb896CAE6413F6490535FCdF9Ca3");
+                let res= await NameContract.methods.login(this.nickname,this.mdp)
+                .call({from:this.MetaMaskAddress})
+                console.log("Appel de la blockchain pour register");
+                if(res===this.MetaMaskAddress){
+                    this.$router.push("search");
+                }else{
+                    console.log(res)
+                }
             }
             else
             {
                 console.log("Erreur de saisie");
             }
+        },
+        checkAccounts() {
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                try {
+                    // Request account access if needed
+                    window.ethereum.enable();
+                } catch (error) {
+                    // User denied account access...
+                }
+            } else if (window.web3) { // Legacy dapp browsers...
+                window.web3 = new Web3(window.web3.currentProvider);
+            } else { // Non-dapp browsers...
+                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            }
+            this.web3=window.web3;
+            this.web3.eth.getAccounts((err, accounts) => {
+            if (err != null) return this.Log(this.MetamaskMsg.NETWORK_ERROR, "NETWORK_ERROR");
+                if (accounts.length === 0){
+                    this.MetaMaskAddress = "";
+                    this.Log(this.MetamaskMsg.EMPTY_METAMASK_ACCOUNT, 'NO_LOGIN');
+                    return;
+                } 
+                console.log(this.MetaMaskAddress)
+                this.MetaMaskAddress = accounts[0]; // user Address
+            });
+        },
+        web3TimerCheck(web3){
+            this.web3 = web3;
+            this.checkAccounts();
+            this.AccountInterval = setInterval(()=> this.checkAccounts(), 1000);
+        }
+    },
+    async mounted(){
+        if (window.web3) {
+            window.web3 = new Web3(window.web3.eth.currentProvider);
+            this.web3TimerCheck(window.web3);
+        } else {
+            this.web3 = null;
+            this.Log(this.MetamaskMsg.METAMASK_NOT_INSTALL, "NO_INSTALL_METAMASK");
+            console.error('Non-Ethereum browser detected. You should consider trying MetaMask!');
         }
     }
+    
 }
 </script>
 

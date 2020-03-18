@@ -22,23 +22,14 @@
                     <p class="cat3">WRITER</p>
                     <p class="cat3">ANSWERED</p>
                 </div>
-                <div class="block_question" v-on:click="goToQuestion()">
-                    <p class="cat4">What are CN, OU, DC in an LDAP search?</p>
+                <div class="block_question" v-on:click="goToQuestion()" v-for="post in allPost" v-bind:key="post">
+                    <p class="cat4">{{post[0]}}</p>
                     <div class="cat5">
-                        <p class="long">These are all parts of the X.500 Directory Specification, which defines nodes in a LDAP directory. You can also read up on LDAP data Interchange Format (LDIF), which is an alternate format. You read it from right to left, the right-most component is the root of the tree,</p>
+                        <p class="long">{{post[1]}}</p>
                     </div>
                     <p class="cat6">09/07/19</p>
-                    <p class="cat6">Johnny</p>
-                    <p class="cat6">YES</p>
-                </div>
-                <div class="block_question" v-on:click="goToQuestion()">
-                    <p class="cat4">What are CN, OU, DC in an LDAP search?</p>
-                    <div class="cat5">
-                        <p class="long">These are all parts of the X.500 Directory Specification, which defines nodes in a LDAP directory. You can also read up on LDAP data Interchange Format (LDIF), which is an alternate format. You read it from right to left, the right-most component is the root of the tree,</p>
-                    </div>
-                    <p class="cat6">09/07/19</p>
-                    <p class="cat6">Johnny</p>
-                    <p class="cat6">NO</p>
+                    <p class="cat6">{{post[5][1]}}</p>
+                    <p class="cat6">{{post[2]}}</p>
                 </div>
             </div>
         </div>
@@ -46,10 +37,14 @@
 </template>
 
 <script>
+import Web3 from 'web3'
+import userContract_abi from '../../../build/contracts/UserCrypto.json'
+import postContract_abi from '../../../build/contracts/PostFactory.json'
 export default {
+    
     data: function(){
         return{
-
+            allPost:[]
         }
     },
     methods:{
@@ -58,6 +53,61 @@ export default {
         },
         goToQuestion: function(){
             this.$router.push("question");
+        },
+        getAllPost: async function(){
+                let web3 = window.web3;
+                const NameContract = new web3.eth.Contract(userContract_abi.abi, "0xf98d1B951606Cb896CAE6413F6490535FCdF9Ca3");
+                const NameContractpost = new web3.eth.Contract(postContract_abi.abi, "0x83A49E28B1fb11208a3cDdd7153A349Fa3963fF5");
+                let res= await NameContractpost.methods.getAllPost()
+                .call({from:this.MetaMaskAddress})
+                console.log(res)
+                res.map(async (index)=>{
+                    let post= await NameContractpost.methods.getPostById(index).call({from:this.MetaMaskAddress});
+                    post[5]=await NameContract.methods.getDetails(post[4]).call({from:this.MetaMaskAddress});
+                    this.allPost.push(post);
+                    console.log(this.allPost);
+                })
+        },
+        checkAccounts() {
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                try {
+                    // Request account access if needed
+                    window.ethereum.enable();
+                } catch (error) {
+                    // User denied account access...
+                }
+            } else if (window.web3) { // Legacy dapp browsers...
+                window.web3 = new Web3(window.web3.currentProvider);
+            } else { // Non-dapp browsers...
+                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            }
+            this.web3=window.web3;
+            this.web3.eth.getAccounts((err, accounts) => {
+            if (err != null) return this.Log(this.MetamaskMsg.NETWORK_ERROR, "NETWORK_ERROR");
+                if (accounts.length === 0){
+                    this.MetaMaskAddress = "";
+                    this.Log(this.MetamaskMsg.EMPTY_METAMASK_ACCOUNT, 'NO_LOGIN');
+                    return;
+                } 
+                this.MetaMaskAddress = accounts[0]; // user Address
+            });
+        },
+        web3TimerCheck(web3){
+            this.web3 = web3;
+            this.checkAccounts();
+            this.AccountInterval = setInterval(()=> this.checkAccounts(), 1000);
+        }
+    },
+    async mounted(){
+        if (window.web3) {
+            window.web3 = new Web3(window.web3.eth.currentProvider);
+            this.web3TimerCheck(window.web3);
+            this.getAllPost();
+        } else {
+            this.web3 = null;
+            this.Log(this.MetamaskMsg.METAMASK_NOT_INSTALL, "NO_INSTALL_METAMASK");
+            console.error('Non-Ethereum browser detected. You should consider trying MetaMask!');
         }
     }
 }

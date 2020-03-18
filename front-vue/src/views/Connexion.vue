@@ -15,7 +15,7 @@
 
 <script>
 import Web3 from 'web3'
-
+import userContract_abi from '../../../build/contracts/UserCrypto.json'
 export default {
     data: function(){
         return{
@@ -31,7 +31,7 @@ export default {
         goToLogin: function(){
             this.$router.push('login');
         },
-        register: function(){
+        register: async function(){
             console.log(this.formulaire);
             if( this.formulaire.pseudo !== "" &&
                 this.formulaire.mail !== "" &&
@@ -39,7 +39,13 @@ export default {
                 this.formulaire.mdp2 !== "" &&
                 this.formulaire.mdp === this.formulaire.mdp2)
             {
-                console.log("Appel de la blockchain pour register");  
+                let web3 = window.web3;
+                const NameContract = new web3.eth.Contract(userContract_abi.abi, "0xf98d1B951606Cb896CAE6413F6490535FCdF9Ca3");
+                let res= await NameContract.methods.register(this.formulaire.mail,this.formulaire.pseudo,this.formulaire.mdp,"")
+                .send({from:this.MetaMaskAddress})
+                console.log(res);
+                console.log("Appel de la blockchain pour register");
+                this.goToLogin();  
             }
             else
             {
