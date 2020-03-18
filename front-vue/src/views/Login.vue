@@ -30,7 +30,7 @@ export default {
                 .call({from:this.MetaMaskAddress})
                 console.log("Appel de la blockchain pour register");
                 if(res===this.MetaMaskAddress){
-                    this.$router.push("search");
+                    this.$router.push({name:"Recherche"});
                 }else{
                     console.log(res)
                 }

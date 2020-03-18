@@ -27,7 +27,16 @@
                     <p class="que_nbr_vote">{{answer[3]}}</p>
                 </div>
                 <p class="que_answer_answer">{{answer[0]}}</p>
-                <button class="que_button" v-on:click="vote(answer[4])">VOTE</button>
+                <button 
+                    class="que_button" 
+                    v-on:click="vote(answer[4])"
+                    v-if="!answer[5].includes(this.MetaMaskAddress) && post[5] != this.MetaMaskAddress"
+                >VOTE</button>
+                <button 
+                    class="que_button" 
+                    v-on:click="validate(answer[4])"
+                    v-if="post[5] == this.MetaMaskAddress"
+                >VALIDATE</button>
             </div>
         </div>
         <p class="que_block_titre">YOUR ANSWER</p>
@@ -55,8 +64,8 @@ export default {
     },
     methods:{
         back: function(){
-            this.$router.push("search");
-            this.$route.params.id;
+            this.$router.push({name:"Recherche"});
+            //this.$route.params.id;
         },
         async getPost(id){
                     let web3 = window.web3;
@@ -87,6 +96,13 @@ export default {
             let web3 = window.web3;
             const NameContractpost = new web3.eth.Contract(postContract_abi.abi, "0x283EA5a7b7C5719d3256533E297dCE93E9f1F216");
             await NameContractpost.methods.likeAnswer(this.$route.params.id,id_res).send({from:this.MetaMaskAddress});
+            this.answers=[]
+            this.getResponse(this.$route.params.id);
+        },
+        async validate(id_res){
+            let web3 = window.web3;
+            const NameContractpost = new web3.eth.Contract(postContract_abi.abi, "0x283EA5a7b7C5719d3256533E297dCE93E9f1F216");
+            await NameContractpost.methods.validateAnswer(this.$route.params.id,id_res).send({from:this.MetaMaskAddress});
             this.answers=[]
             this.getResponse(this.$route.params.id);
         },

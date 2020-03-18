@@ -39,7 +39,7 @@ export default {
                 await NameContractpost.methods.newPost(this.titre,this.desc)
                 .send({from:this.MetaMaskAddress})
                 
-                this.$router.push("search"); 
+                this.$router.push({name:"Recherche"}); 
             }
             else
             {

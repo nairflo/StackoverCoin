@@ -29,7 +29,7 @@ export default {
     },
     methods:{
         goToLogin: function(){
-            this.$router.push('login');
+            this.$router.push({name:'Login'});
         },
         register: async function(){
             if( this.formulaire.pseudo !== "" &&
