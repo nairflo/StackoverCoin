@@ -86,7 +86,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .login{
     align-items: center;
     flex-direction: column;
@@ -95,6 +95,7 @@ export default {
     height: 350px;
     background-color:white;
     border-radius: 10px;
+    margin-top: 20px;
 }
 .log_create{
     margin-top: 40px;
@@ -133,5 +134,6 @@ export default {
     font-size: 15px;
     font-weight: 700;
     outline: none;
+    cursor: pointer;
 }
 </style>

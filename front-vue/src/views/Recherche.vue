@@ -113,7 +113,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .forum{
     margin-top: 5%;
     margin-left: 10%;
@@ -186,6 +186,7 @@ font-family: 'Roboto', sans-serif;
     margin-right: 20px;
     box-shadow: none;
     outline: none;
+    cursor: pointer;
 }
 p{
     padding: 0;
@@ -266,6 +267,10 @@ svg{
     align-items: center;
     padding-bottom: 20px;
     padding-top: 20px;
+    cursor: pointer;
+}
+.block_question:hover{
+    background-color: rgb(230, 230, 230);
 }
 
 .cat4{
@@ -300,7 +305,7 @@ svg{
     width: 100%;
 }
 .bouton2{
-    width: 250px;
+    width: 90%;
     height: 60px;
     border-radius: 10px;
     outline: none;

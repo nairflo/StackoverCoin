@@ -17,4 +17,18 @@
   color: #2c3e50;
   width: 100%;
 }
+*{
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+    margin: 0;
+}
+html, body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    background-color: #efefef;
+}
 </style>

@@ -90,14 +90,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .ask_block{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 20%;
-    margin-right: 20%;
-    width: 60%;
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
 }
 .ask{
     align-items: center;
@@ -110,9 +110,10 @@ export default {
     padding-bottom: 40px;;
 }
 .ask_create{
-    padding-bottom: 30px;
-    font-weight:600;
+    padding-bottom: 15px;
+    font-weight: 600;
     width: 100%;
+    margin-top: 25px;
 }
 
 #ask_titre{
@@ -155,7 +156,7 @@ export default {
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    width: 300px;
+    width: 20%;
     height: 40px;
     margin-top: 30px;
     margin-bottom: 10px;
@@ -167,6 +168,7 @@ export default {
     font-size: 15px;
     font-weight: 700;
     outline: none;
+    cursor: pointer;
 }
 .ask_button{
     box-shadow: none;
@@ -175,7 +177,7 @@ export default {
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    width: 300px;
+    width: 70%;
     height: 40px;
     margin-top: 30px;
     margin-bottom: 10px;
@@ -187,6 +189,7 @@ export default {
     font-size: 15px;
     font-weight: 700;
     outline: none;
+    cursor: pointer;
 }
 .ask_question{
     width: 80%;

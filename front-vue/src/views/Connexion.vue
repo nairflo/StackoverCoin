@@ -120,7 +120,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 html, body{
     display: flex;
     width: 100%;
@@ -142,6 +142,7 @@ body{
     max-width: 512px;
     width: 100%;
     padding-bottom: 20px;
+    margin-top: 20px;
 }
 .create{
     margin-top: 40px;
@@ -181,9 +182,6 @@ button{
     font-size: 15px;
     font-weight: 700;
     outline: none;
-}
-
-button:hover{
     cursor: pointer;
 }
 
