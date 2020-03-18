@@ -1,5 +1,6 @@
 <template>
     <div class="que_general">
+        <button class="back_button" v-on:click="back()"><p>BACK</p></button>
         <p class="que_block_titre">QUESTION</p>
         <div class="que_question">
             <p class="que_titre">What are CN, OU, DC in an LDAP search?</p>
@@ -52,15 +53,23 @@
 
 <script>
 export default {
-    
+    data: function(){
+        return{
+
+        }
+    },
+    methods:{
+        back: function(){
+            this.$router.push("search");
+        }
+    }
 }
 </script>
 
-<style>
+<style scoped>
 .que_block_titre{
     padding-bottom: 30px;
     font-weight: 600;
-    margin-top: 50px;
 }
 .que_general{
     display: flex;
@@ -76,6 +85,7 @@ export default {
     border-radius: 10px;
     padding: 50px;
     margin-bottom: 50px;
+    text-align:left;
 }
 .que_titre{
     border-bottom: 1px solid grey;
@@ -94,6 +104,7 @@ export default {
     display: flex;
     flex-direction: column;
     margin-bottom: 50px;
+    text-align:left;
     
 }
 .que_an_answer{
@@ -128,6 +139,7 @@ export default {
     margin-left: 70px;
     margin-right: 15px;
     margin-top: 15px;
+    cursor: pointer;
 }
 .que_svg{
     min-width: 60px;
@@ -189,5 +201,27 @@ margin-bottom: 50px;
     font-weight: 700;
     outline: none;
     margin-top: 20px;
+    cursor: pointer;
+}
+.back_button{
+    box-shadow: none;
+    border: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 20%;
+    height: 40px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: none;
+    background: rgb(115,153,255);
+    background: linear-gradient(90deg, rgba(115,153,255,1) 0%, rgba(2,218,253,1) 100%);
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
 }
 </style>
