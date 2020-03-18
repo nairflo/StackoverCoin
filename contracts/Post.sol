@@ -113,6 +113,13 @@ event likeAnswerEvent(uint idpost, uint idAnswer);
 
     function likeAnswer(uint _post, uint _id) public {
         require(msg.sender!=posts[_post].responses[_id].author, "You can't like your own answer");
+        bool alreadylike = false;
+        for (uint i; i<posts[_post].responses[_id].nblike++; i++){
+            if(posts[_post].responses[_id].like[i]==msg.sender){
+                alreadylike = true;
+            }
+        }
+        require(alreadylike, "You can't like twice the same answer answer");
         posts[_post].responses[_id].like.push(msg.sender);
         posts[_post].responses[_id].nblike++;
     }
